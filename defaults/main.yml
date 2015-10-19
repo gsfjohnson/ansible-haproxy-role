@@ -3,12 +3,11 @@
 haproxy_manage_config: true
 haproxy_global:
   log:
-    - address: /dev/log
-      facility: local0
-    - address: /dev/log
-      facility: local1
-      level: notice
+    - address: 127.0.0.1
+      facility: local2
   chroot: /var/lib/haproxy
+  pidfile: /var/run/haproxy.pid
+  maxconn: 4000
   user: haproxy
   group: haproxy
   daemon: true
@@ -16,23 +15,31 @@ haproxy_global:
 haproxy_defaults:
   mode: http
   log:
-    - address: /dev/log
-      facility: local1
-      level: notice
+    - address: global
+#    - address: /dev/log
+#      facility: local1
+#      level: notice
   timeout:
+      - param: 'http-request'
+        value: '10s'
+      - param: 'queue'
+        value: '1m'
       - param: 'connect'
-        value: '5000ms'
+        value: '10s'
       - param: 'client'
-        value: '50000ms'
+        value: '1m'
       - param: 'server'
-        value: '50000ms'
+        value: '1m'
+      - param: 'http-keep-alive'
+        value: '10s'
+      - param: 'check'
+        value: '10s'
   options:
-    - httpclose
-    - forwardfor except 127.0.0.0/8
-    - redispatch
-    - abortonclose
     - httplog
     - dontlognull
+    - http-server-close
+    - forwardfor except 127.0.0.0/8
+    - redispatch
   errorfile:
       - code: 400
         file: /etc/haproxy/errors/400.http
