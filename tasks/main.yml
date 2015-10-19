@@ -1,5 +1,6 @@
 ---
-- include: install.yml
+- include: setup-RedHat.yml
+  when: ansible_os_family == "RedHat"
 
 - include: configure.yml
   when: haproxy_manage_config

@@ -1,0 +1,23 @@
+---
+
+- name: 'Set SmartOS etc prefix'
+  set_fact: etc_prefix=/opt/local/etc
+  when: ansible_os_family == "Solaris"
+
+- name: 'Set SmartOS haproxy config location'
+  set_fact: config_location=/opt/local/etc/haproxy.cfg
+  when: ansible_os_family == "Solaris"
+
+- name: 'Installs haproxy as well as socat for socket api'
+  pkgin: name={{ item }} state=present
+  with_items:
+    - haproxy
+    - socat
+  when: ansible_os_family == 'Solaris'
+
+- name: 'Enable it'
+  service: name=haproxy enabled=yes
+
+- name: 'Ensure chroot directory exists'
+  file: name={{ haproxy_global.chroot }} state=directory
+  when: haproxy_global.chroot is defined and haproxy_global.chroot
