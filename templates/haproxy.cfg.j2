@@ -288,7 +288,8 @@ backend {{ item.name }}
 {% if item.tcp_check is defined %}
     option  tcp-check
 {% for chk in item.tcp_check %}
-    tcp-check {{ chk.cmd }} {{ chk.param }} {% if chk.desc is defined %}# {{ chk.desc }}{% endif %}
+    tcp-check {{ "%-13s %-20s"|format(chk.cmd, chk.param) }} {% if chk.desc is defined %}# {{ chk.desc }}{% endif %}
+
 {% endfor %}
 {% endif -%}
 {% if item.http_request is defined %}
