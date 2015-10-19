@@ -2,23 +2,15 @@
 
 - name: set haproxy cfg location
   set_fact: haproxy_cfg=/etc/haproxy/haproxy.cfg
-  when: ansible_os_family == "RedHat"
 
-- name: enable EPEL
-  template: 
-    src=epel.repo
-    dest=/etc/yum.repos.d/epel.repo
-    owner=root
-    group=root
-    mode=0644
-  when: ansible_os_family == "RedHat"
+- name: install epel-release
+  yum: name=epel-release state=latest
 
 - name: install pkg and socat for socket api
   yum: name={{ item }} state=latest
   with_items:
     - haproxy
     - socat
-  when: ansible_os_family == 'RedHat'
 
 - name: enable and start svc
   service: name=haproxy state=started enabled=yes
