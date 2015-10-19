@@ -249,22 +249,22 @@ backend {{ item.name }}
     disabled
 {% endif -%}
 {% if item.description is defined %}
-    description {{ item.description }}
+    description             {{ item.description }}
+{% endif -%}
+{% if item.mode is defined %}
+    mode    {{ item.mode }}
 {% endif -%}
 {% if item.servers is defined %}
 {% for server in item.servers %}
-    server {{ server.name }} {{ server.ip }}{% if server.port is defined %}:{{server.port }}{% endif %} {% if server.maxconn is defined %}maxconn {{server.maxconn }} {% endif %}{% if server.params is defined %}{% for param in server.params %}{{ param }} {% endfor %}{% endif %}
+    server  {{ "%-20s %s"|format(server.name, server.ip) }}{% if server.port is defined %}:{{server.port }}{% endif %} {% if server.maxconn is defined %}maxconn {{server.maxconn }} {% endif %}{% if server.params is defined %}{% for param in server.params %}{{ param }} {% endfor %}{% endif %}
 
 {% endfor %}
 {% endif %}
 {% if item.balance is defined %}
     balance {{ item.balance }}
 {% endif -%}
-{% if item.mode is defined %}
-    mode {{ item.mode }}
-{% endif -%}
 {% if item.log is defined %}
-    log {{ item.log }}
+    log     {{ item.log }}
 {% endif -%}
 {% if item.retries is defined %}
     retries {{ item.retries }}
@@ -283,6 +283,12 @@ backend {{ item.name }}
 {% if item.http_check_expect is defined %}
 {% for check_expect in item.http_check_expect %}
     http-check expect {{ check_expect }}
+{% endfor %}
+{% endif -%}
+{% if item.tcp_check is defined %}
+    option  tcp-check
+{% for chk in item.tcp_check %}
+    tcp-check {{ chk.cmd }} {{ chk.param }} {% if chk.desc is defined %}# {{ chk.desc }}{% endif %}
 {% endfor %}
 {% endif -%}
 {% if item.http_request is defined %}
