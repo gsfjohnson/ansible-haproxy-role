@@ -13,9 +13,6 @@
     - haproxy
     - socat
 
-- name: enable and start svc
-  service: name=haproxy state=started enabled=yes
-
 - name: ensure chroot directory exists
   file: name={{ haproxy_global.chroot }} state=directory
   when: haproxy_global.chroot is defined and haproxy_global.chroot

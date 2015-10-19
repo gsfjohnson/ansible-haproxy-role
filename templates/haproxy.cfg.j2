@@ -74,13 +74,13 @@ defaults
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if haproxy_defaults.retries is defined %}
+{%- if haproxy_defaults.retries is defined %}
     retries                 {{ haproxy_defaults.retries }}
-{% endif -%}
-{% if haproxy_defaults.stats is defined %}
+{% endif %}
+{%- if haproxy_defaults.stats is defined %}
 {% if haproxy_defaults.stats.enabled is defined and haproxy_defaults.stats.enabled == True %}
     stats enable
-{% endif -%}
+{% endif %}
 {% if haproxy_defaults.stats.hide_version is defined and haproxy_defaults.stats.hide_version == true %}
     stats hide-version
 {% endif -%}
@@ -106,11 +106,11 @@ defaults
 {% for condition in haproxy_defaults.timeout %}
     timeout {{ "%-15s %s"|format(condition.param,condition.value) }}
 {% endfor %}
-{% endif -%}
-{% if haproxy_defaults.maxconn is defined -%}
+{% endif %}
+{%- if haproxy_defaults.maxconn is defined %}
     maxconn                 {{ haproxy_defaults.maxconn }}
-{% endif -%}
-{% if ansible_distribution != 'CentOS' %}
+{% endif %}
+{%- if ansible_distribution != 'CentOS' %}
 {% if haproxy_defaults.errorfile is defined %}
 {% for item in haproxy_defaults.errorfile %}
     errorfile {{ item.code }} {{ item.file }}
@@ -142,8 +142,8 @@ defaults
 {% endif -%}
 {% if haproxy_defaults.http_check.send_state is defined and haproxy_defaults.http_check.send_state == true %}
     http-check send-state
-{% endif -%}
-{% endif -%}
+{% endif %}
+{% endif %}
 
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends

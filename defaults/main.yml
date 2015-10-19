@@ -1,4 +1,8 @@
 ---
+
+haproxy_svc_state: started
+haproxy_svc_enabled: yes
+
 # defaults file for haproxy
 haproxy_install_epel: False
 haproxy_manage_config: true

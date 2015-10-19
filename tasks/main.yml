@@ -1,6 +1,12 @@
 ---
+
 - include: setup-RedHat.yml
   when: ansible_os_family == "RedHat"
 
 - include: configure.yml
   when: haproxy_manage_config
+
+- name: enable and start svc
+  service: name=haproxy state={{haproxy_svc_state}} enabled={{haproxy_svc_enabled}}
+
+
