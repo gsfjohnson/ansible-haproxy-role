@@ -1,7 +1,13 @@
 ---
 
+haproxy_svc_name: haproxy
 haproxy_svc_state: started
 haproxy_svc_enabled: yes
+
+haproxy_pkg_name: haproxy
+haproxy_pkg_state: installed
+
+haproxy_install_socat: false
 
 # defaults file for haproxy
 haproxy_install_epel: False

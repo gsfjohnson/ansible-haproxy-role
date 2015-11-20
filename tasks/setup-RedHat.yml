@@ -7,13 +7,20 @@
   yum: name=epel-release state=latest
   when: ansible_distribution == 'CentOS' or haproxy_install_epel
 
-- name: install pkg and socat for socket api
-  yum: name={{ item }} state=latest
-  with_items:
-    - haproxy
-    - socat
+- name: install pkg
+  yum:
+    name={{haproxy_pkg_name}}
+    state={{haproxy_pkg_state}}
+
+- name: install socat for socket api
+  yum:
+    name=socat
+    state={{haproxy_pkg_state}}
+  when: haproxy_install_socat
 
 - name: ensure chroot directory exists
-  file: name={{ haproxy_global.chroot }} state=directory
+  file:
+    name={{haproxy_global.chroot}}
+    state=directory
   when: haproxy_global.chroot is defined and haproxy_global.chroot
 

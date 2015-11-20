@@ -6,3 +6,9 @@
     dest={{haproxy_cfg}}
   notify: restart haproxy
 
+- name: enable and start svc
+  service:
+    name={{haproxy_svc_name}}
+    state={{haproxy_svc_state}}
+    enabled={{haproxy_svc_enabled}}
+
